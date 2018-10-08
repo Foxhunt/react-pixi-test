@@ -9,6 +9,6 @@ build:
   artifacts:
     name: $CI_PROJECT_NAME-$CI_BUILD_REF_NAME-$CI_BUILD_REF
     paths:
-      - public
+      - dist
   only:
     - master

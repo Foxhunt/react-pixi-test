@@ -1,0 +1,14 @@
+image: node:10.10.0
+
+variables:
+  GIT_DEPTH: "1"
+
+build:
+  stage: build
+  script: ci/build.sh
+  artifacts:
+    name: $CI_PROJECT_NAME-$CI_BUILD_REF_NAME-$CI_BUILD_REF
+    paths:
+      - public
+  only:
+    - master

@@ -27,6 +27,8 @@ deploy_staging:
     - ssh deployment@futurium-stg.intern.artcom.de find /srv/www/webapps/$CI_PROJECT_NAME -type d -exec "chmod 0750 {} \;"
     - ssh deployment@futurium-stg.intern.artcom.de find /srv/www/webapps/$CI_PROJECT_NAME -type f -exec "chmod 0640 {} \;"
   only:
-    - master
+    variables:
+    - $CI_PIPELINE_SOURCE == "web"
+    - $CI_COMMIT_REF_NAME == "master"
   when: manual
   environment: staging

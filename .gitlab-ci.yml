@@ -28,3 +28,5 @@ deploy_staging:
     - ssh deployment@futurium-stg.intern.artcom.de find /srv/www/webapps/$CI_PROJECT_NAME -type f -exec "chmod 0640 {} \;"
   only:
     - master
+  when: manual
+  environment: staging

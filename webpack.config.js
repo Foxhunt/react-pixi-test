@@ -1,10 +1,9 @@
 /* eslint-disable import/no-commonjs */
-const path = require("path")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
 
-module.exports = {
-  entry: "./src/index.js",
-  devtool: "source-map",
+module.exports = (env = {}) => ({
+  mode: env.production ? "production" : "development",
+  devtool: env.production ? "source-map" : "eval-source-map",
   module: {
     rules: [
       {
@@ -14,23 +13,11 @@ module.exports = {
       }
     ]
   },
-  resolve: {
-    extensions: [".js"]
-  },
-  output: {
-    filename: "main.js",
-    path: path.resolve(__dirname, "dist")
-  },
   devServer: {
     host: "0.0.0.0",
-    port: 3000,
-    publicPath: "http://localhost:3000",
-    compress: true,
-    open: true
+    publicPath: "http://localhost:8080"
   },
   plugins: [
-    new HtmlWebpackPlugin({
-      template: "src/index.html"
-    })
+    new HtmlWebpackPlugin({ template: "src/index.html" })
   ]
-}
+})

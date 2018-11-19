@@ -1,11 +1,14 @@
-image: node:10.10.0
-
-variables:
-  GIT_DEPTH: "1"
+image: node:10.13.0
 
 build:
   stage: build
-  script: ci/build.sh
+  variables:
+    GIT_DEPTH: "1"
+    GIT_SUBMODULE_STRATEGY: recursive
+  script:
+    - npm install
+    - npm run build
+    - "echo {\"branch\": \"$CI_BUILD_REF_NAME\", \"commit\": \"$CI_BUILD_REF\", \"job\": $CI_PIPELINE_ID} > dist/build.json"
   artifacts:
     name: $CI_PROJECT_NAME-$CI_BUILD_REF_NAME-$CI_BUILD_REF
     paths:
@@ -13,3 +16,15 @@ build:
   only:
     - master
     - tags
+
+deploy_staging:
+  stage: deploy
+  script:
+    - apt-get update --yes && apt-get install rsync --yes
+    - ssh-keyscan -H futurium-stg.intern.artcom.de >> ~/.ssh/known_hosts
+    - rsync -av --delete dist/ deployment@futurium-stg.intern.artcom.de:/srv/www/webapps/$CI_PROJECT_NAME
+    - ssh deployment@futurium-stg.intern.artcom.de chown -R :www-data /srv/www/webapps/$CI_PROJECT_NAME
+    - ssh deployment@futurium-stg.intern.artcom.de find /srv/www/webapps/$CI_PROJECT_NAME -type d -exec "chmod 0750 {} \;"
+    - ssh deployment@futurium-stg.intern.artcom.de find /srv/www/webapps/$CI_PROJECT_NAME -type f -exec "chmod 0640 {} \;"
+  only:
+    - master

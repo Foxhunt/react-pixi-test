@@ -3,12 +3,17 @@ import { Stage } from "@inlet/react-pixi"
 
 import Ball from "./ball"
 
+const dimension = 600
+
 const App = () =>
   <Stage
-    width={ 300 }
-    height={ 300 }
+    width={ dimension }
+    height={ dimension }
     options={ {
-      antialias: true
+      roundPixels: true,
+      antialias: true,
+      clearBeforeRender: false,
+      preserveDrawingBuffer: false
     } }>
     <Ball />
   </Stage>

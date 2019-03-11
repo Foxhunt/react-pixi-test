@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react"
+import React, { useState, useCallback, useEffect } from "react"
 import { useApp, useTick, Graphics, Container } from "@inlet/react-pixi"
 
 const calcPos = (count, rad) => [
@@ -6,10 +6,14 @@ const calcPos = (count, rad) => [
   Math.cos(count) * rad
 ]
 
-const Ball = () => {
+const Penn = ({ getApp }) => {
   const app = useApp()
 
-  const [active, setActive] = useState(true)
+  useEffect(() => {
+    getApp(app)
+  }, [app, getApp])
+
+  const [active, setActive] = useState(false)
   const [posCount, setPosCount] = useState(Math.PI * 1.5)
   const [rotCount, setRotCount] = useState(0)
 
@@ -41,8 +45,8 @@ const Ball = () => {
         } }
         draw={ g => {
           g.clear()
-          g.beginFill(0xffffff, 0)
-          g.lineStyle(1, 0xffffff)
+          g.beginFill(0xFFC0CB, 0.1)
+          g.lineStyle(1, 0x000000, 1, 0.5)
           g.drawRect(0 - size / 2, 0 - size / 2, size, size)
           g.endFill()
         } } />
@@ -50,4 +54,4 @@ const Ball = () => {
   )
 }
 
-export default Ball
+export default Penn

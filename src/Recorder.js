@@ -2,7 +2,7 @@ import download from "downloadjs"
 
 export default class Recorder extends MediaRecorder {
   constructor(canvas) {
-    super(canvas.captureStream(), { mimeType: "video/webm" })
+    super(canvas.captureStream(30), { mimeType: "video/webm" })
     this.chunks = []
     this.ondataavailable = this.handleData
   }
@@ -14,7 +14,7 @@ export default class Recorder extends MediaRecorder {
   }
 
   start() {
-    super.start()
+    super.start(500)
     console.log("started recording")
   }
 

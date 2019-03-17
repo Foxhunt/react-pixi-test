@@ -20,7 +20,7 @@ const Penn = ({ getApp }) => {
 
   useEffect(() => {
     getApp(app)
-  }, [app])
+  }, [])
 
   const [active, setActive] = useState(true)
   const [contRot, setContRot] = useState(Math.PI * 1.75)
@@ -42,7 +42,7 @@ const Penn = ({ getApp }) => {
   const sizeOsc = oscillate(rectSize, 0 , 1)
   const posOsc = oscillate(rectPos, 0 , 1)
 
-  const size = (app.view.width / 6) * sizeOsc
+  const size = 100 * sizeOsc
 
   return (
     <Container
@@ -50,7 +50,7 @@ const Penn = ({ getApp }) => {
       rotation={ contRot }>
       <Graphics
         interactive
-        position={ [app.view.width / 4 * posOsc, app.view.height / 4 * posOsc] }
+        position={ [app.view.width / 4 * posOsc, app.view.width / 4 * posOsc] }
         rotation={ rectRot }
         pointertap={ () => {
           setActive(!active)
@@ -58,7 +58,7 @@ const Penn = ({ getApp }) => {
         draw={ g => drawRect(g, size) } />
       <Graphics
         interactive
-        position={ [-app.view.width / 4 * posOsc, app.view.height / 4 * posOsc] }
+        position={ [-app.view.width / 4 * posOsc, app.view.width / 4 * posOsc] }
         rotation={ rectRot }
         pointertap={ () => {
           setActive(!active)
@@ -66,7 +66,7 @@ const Penn = ({ getApp }) => {
         draw={ g => drawRect(g, size) } />
       <Graphics
         interactive
-        position={ [app.view.width / 4 * posOsc, -app.view.height / 4 * posOsc] }
+        position={ [app.view.width / 4 * posOsc, -app.view.width / 4 * posOsc] }
         rotation={ rectRot }
         pointertap={ () => {
           setActive(!active)
@@ -74,7 +74,7 @@ const Penn = ({ getApp }) => {
         draw={ g => drawRect(g, size) } />
       <Graphics
         interactive
-        position={ [-app.view.width / 4 * posOsc, -app.view.height / 4 * posOsc] }
+        position={ [-app.view.width / 4 * posOsc, -app.view.width / 4 * posOsc] }
         rotation={ rectRot }
         pointertap={ () => {
           setActive(!active)

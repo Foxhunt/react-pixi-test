@@ -1,55 +1,85 @@
 import React, { useState, useCallback, useEffect } from "react"
 import { useApp, useTick, Graphics, Container } from "@inlet/react-pixi"
 
-const calcPos = (count, rad) => [
-  Math.cos(count + Math.PI * 0.5) * rad,
-  Math.cos(count) * rad
-]
+const drawRect = (g, size) => {
+  g.clear()
+  g.beginFill(0xff6666, 0.5)
+  g.lineStyle(1, 0x1a1a1a, 0.5, 0.5)
+  g.drawRect(0 - size / 2, 0 - size / 2, size, size)
+  g.endFill()
+}
+
+const oscillate = (input, min, max) => {
+  const range = max - min
+  const out = min + Math.abs(((input + range) % (range * 2)) - range)
+  return out
+}
 
 const Penn = ({ getApp }) => {
   const app = useApp()
 
   useEffect(() => {
     getApp(app)
-  }, [app, getApp])
+  }, [app])
 
-  const [active, setActive] = useState(false)
-  const [posCount, setPosCount] = useState(Math.PI * 1.5)
-  const [rotCount, setRotCount] = useState(0)
+  const [active, setActive] = useState(true)
+  const [contRot, setContRot] = useState(Math.PI * 1.75)
+  const [rectRot, setRectRot] = useState(0)
+  const [rectSize, setRectSize] = useState(0)
+  const [rectPos, setRectPos] = useState(0)
 
   const tick = useCallback(d => {
     if (active) {
-      setPosCount(count => count + d * 0.01)
-      setRotCount(rotCount => rotCount - d * 0.005)
+      setContRot(val => val + d * 0.015)
+      setRectRot(val => val - d * 0.03)
+      setRectSize(val => val + d * 0.0003)
+      setRectPos(val => val + d * 0.0006)
     }
   }, [active])
 
   useTick(tick)
 
-  const size = app.view.width / 6
-  const radius = app.view.width / 3
+  const sizeOsc = oscillate(rectSize, 0 , 1)
+  const posOsc = oscillate(rectPos, 0 , 1)
 
-  const [xOff, yOff] = calcPos(posCount, radius)
-
-  const x = app.view.width / 2 + xOff
-  const y = app.view.height / 2 + yOff
+  const size = (app.view.width / 6) * sizeOsc
 
   return (
     <Container
-      position={ [x, y] }
-      rotation={ rotCount }>
+      position={ [app.view.width / 2, app.view.height / 2] }
+      rotation={ contRot }>
       <Graphics
         interactive
+        position={ [app.view.width / 4 * posOsc, app.view.height / 4 * posOsc] }
+        rotation={ rectRot }
         pointertap={ () => {
           setActive(!active)
         } }
-        draw={ g => {
-          g.clear()
-          g.beginFill(0xFFC0CB, 0.1)
-          g.lineStyle(1, 0x000000, 1, 0.5)
-          g.drawRect(0 - size / 2, 0 - size / 2, size, size)
-          g.endFill()
-        } } />
+        draw={ g => drawRect(g, size) } />
+      <Graphics
+        interactive
+        position={ [-app.view.width / 4 * posOsc, app.view.height / 4 * posOsc] }
+        rotation={ rectRot }
+        pointertap={ () => {
+          setActive(!active)
+        } }
+        draw={ g => drawRect(g, size) } />
+      <Graphics
+        interactive
+        position={ [app.view.width / 4 * posOsc, -app.view.height / 4 * posOsc] }
+        rotation={ rectRot }
+        pointertap={ () => {
+          setActive(!active)
+        } }
+        draw={ g => drawRect(g, size) } />
+      <Graphics
+        interactive
+        position={ [-app.view.width / 4 * posOsc, -app.view.height / 4 * posOsc] }
+        rotation={ rectRot }
+        pointertap={ () => {
+          setActive(!active)
+        } }
+        draw={ g => drawRect(g, size) } />
     </Container>
   )
 }

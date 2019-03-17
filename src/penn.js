@@ -3,7 +3,7 @@ import { useApp, useTick, Graphics, Container } from "@inlet/react-pixi"
 
 const drawRect = (g, size) => {
   g.clear()
-  g.beginFill(0xff6666, 0.5)
+  g.beginFill(0xff3333, 0.5)
   g.lineStyle(1, 0x1a1a1a, 0.5, 0.5)
   g.drawRect(0 - size / 2, 0 - size / 2, size, size)
   g.endFill()
@@ -11,11 +11,11 @@ const drawRect = (g, size) => {
 
 const oscillate = (input, min, max) => {
   const range = max - min
-  const out = min + Math.abs(((input + range) % (range * 2)) - range)
+  const out = min + Math.abs((input + range) % (range * 2) - range)
   return out
 }
 
-const Penn = ({ getApp }) => {
+const Penn = ({ getApp, conRotSpeed, rectPosSpeed }) => {
   const app = useApp()
 
   useEffect(() => {
@@ -25,24 +25,24 @@ const Penn = ({ getApp }) => {
   const [active, setActive] = useState(true)
   const [contRot, setContRot] = useState(Math.PI * 1.75)
   const [rectRot, setRectRot] = useState(0)
-  const [rectSize, setRectSize] = useState(0)
+  const [rectSize, setRectSize] = useState(0.3)
   const [rectPos, setRectPos] = useState(0)
 
   const tick = useCallback(d => {
     if (active) {
-      setContRot(val => val + d * 0.015)
+      setContRot(val => val + d * conRotSpeed)
       setRectRot(val => val - d * 0.03)
-      setRectSize(val => val + d * 0.0003)
-      setRectPos(val => val + d * 0.0006)
+      setRectSize(val => val + d * 0.00015)
+      setRectPos(val => val + d * rectPosSpeed)
     }
-  }, [active])
+  }, [active, conRotSpeed, rectPosSpeed])
 
   useTick(tick)
 
-  const sizeOsc = oscillate(rectSize, 0 , 1)
-  const posOsc = oscillate(rectPos, 0 , 1)
+  const sizeOsc = oscillate(rectSize, 0, 1)
+  const posOsc = oscillate(rectPos, 0.02, 1)
 
-  const size = 100 * sizeOsc
+  const size = 30 * sizeOsc
 
   return (
     <Container

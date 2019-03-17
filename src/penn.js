@@ -1,6 +1,10 @@
 import React, { useState, useCallback, useEffect } from "react"
 import { useApp, useTick, Graphics, Container } from "@inlet/react-pixi"
 
+import AlphaFilter from "./AlphaFilter"
+
+const alphaFilter = new AlphaFilter(0.02)
+
 const drawRect = (g, size) => {
   g.clear()
   g.beginFill(0xff3333, 0.5)
@@ -20,6 +24,7 @@ const Penn = ({ getApp, conRotSpeed, rectPosSpeed }) => {
 
   useEffect(() => {
     getApp(app)
+    // app.stage.filters = [alphaFilter]
   }, [])
 
   const [active, setActive] = useState(true)

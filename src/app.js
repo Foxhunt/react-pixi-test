@@ -7,17 +7,23 @@ import Penn from "./penn"
 
 const App = () => {
   const [recorder, setRecorder] = useState(null)
-  const [recording, setRecording] = useState(false)
-  const [conRotSpeed, setConRotSpeed] = useState(0.03)
-  const [rectPosSpeed, setRectPosSpeed] = useState(0.0003)
+  const [recording, setRecording] = useState(true)
+  const [conRotSpeed, setConRotSpeed] = useState(0.0325)
+  const [rectPosSpeed, setRectPosSpeed] = useState(0.0009)
 
   useEffect(() => {
     if (recording) {
       document.title = "recording"
+      if (recorder) {
+        recorder.start()
+      }
     } else {
       document.title = "not recording"
+      if (recorder) {
+        recorder.stop()
+      }
     }
-  }, [recording])
+  }, [recording, recorder])
 
   useEffect(() => {
     window.onkeydown = event => {
@@ -44,23 +50,26 @@ const App = () => {
   })
 
   return (
-    <Stage
-      onClick={ () => {
-        if (recording) {recorder.stop()} else {recorder.start()}
-        setRecording(!recording)
-      } }
-      width={ 800 }
-      height={ 800 }
-      options={ {
-        antialias: true,
-        clearBeforeRender: false,
-        preserveDrawingBuffer: true
-      } }>
-      <Penn
-        conRotSpeed={ conRotSpeed }
-        rectPosSpeed={ rectPosSpeed }
-        getApp={ app => setRecorder(new Recorder(app.view)) } />
-    </Stage>
+    <>
+      <Stage
+        onClick={ () => {
+          setRecording(!recording)
+        } }
+        width={ 800 }
+        height={ 800 }
+        options={ {
+          antialias: true,
+          clearBeforeRender: false,
+          preserveDrawingBuffer: true
+        } }>
+        <Penn
+          conRotSpeed={ conRotSpeed }
+          rectPosSpeed={ rectPosSpeed }
+          getApp={ app => setRecorder(new Recorder(app.view)) } />
+      </Stage>
+      <div>conRotSpeed: { conRotSpeed }</div>
+      <div>rectPosSpeed: { rectPosSpeed }</div>
+    </>
   )
 }
 

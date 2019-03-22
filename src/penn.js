@@ -1,14 +1,10 @@
 import React, { useState, useCallback, useEffect } from "react"
 import { useApp, useTick, Graphics, Container } from "@inlet/react-pixi"
 
-import AlphaFilter from "./AlphaFilter"
-
-const alphaFilter = new AlphaFilter(0.02)
-
 const drawRect = (g, size) => {
   g.clear()
-  g.beginFill(0xff3333, 0.5)
-  g.lineStyle(1, 0x1a1a1a, 0.5, 0.5)
+  g.beginFill(0xffff66, 0.5)
+  g.lineStyle(1, 0xff3333, 0.5, 0.5)
   g.drawRect(0 - size / 2, 0 - size / 2, size, size)
   g.endFill()
 }
@@ -24,7 +20,6 @@ const Penn = ({ getApp, conRotSpeed, rectPosSpeed }) => {
 
   useEffect(() => {
     getApp(app)
-    // app.stage.filters = [alphaFilter]
   }, [])
 
   const [active, setActive] = useState(true)
@@ -37,7 +32,7 @@ const Penn = ({ getApp, conRotSpeed, rectPosSpeed }) => {
     if (active) {
       setContRot(val => val + d * conRotSpeed)
       setRectRot(val => val - d * 0.03)
-      setRectSize(val => val + d * 0.00015)
+      setRectSize(val => val + d * 0.1)
       setRectPos(val => val + d * rectPosSpeed)
     }
   }, [active, conRotSpeed, rectPosSpeed])
@@ -55,7 +50,7 @@ const Penn = ({ getApp, conRotSpeed, rectPosSpeed }) => {
       rotation={ contRot }>
       <Graphics
         interactive
-        position={ [app.view.width / 4 * posOsc, app.view.width / 4 * posOsc] }
+        position={ [app.view.width / 2 * posOsc, app.view.width / 2 * posOsc] }
         rotation={ rectRot }
         pointertap={ () => {
           setActive(!active)
@@ -63,7 +58,7 @@ const Penn = ({ getApp, conRotSpeed, rectPosSpeed }) => {
         draw={ g => drawRect(g, size) } />
       <Graphics
         interactive
-        position={ [-app.view.width / 4 * posOsc, app.view.width / 4 * posOsc] }
+        position={ [-app.view.width / 2 * posOsc, app.view.width / 2 * posOsc] }
         rotation={ rectRot }
         pointertap={ () => {
           setActive(!active)
@@ -71,7 +66,7 @@ const Penn = ({ getApp, conRotSpeed, rectPosSpeed }) => {
         draw={ g => drawRect(g, size) } />
       <Graphics
         interactive
-        position={ [app.view.width / 4 * posOsc, -app.view.width / 4 * posOsc] }
+        position={ [app.view.width / 2 * posOsc, -app.view.width / 2 * posOsc] }
         rotation={ rectRot }
         pointertap={ () => {
           setActive(!active)
@@ -79,7 +74,7 @@ const Penn = ({ getApp, conRotSpeed, rectPosSpeed }) => {
         draw={ g => drawRect(g, size) } />
       <Graphics
         interactive
-        position={ [-app.view.width / 4 * posOsc, -app.view.width / 4 * posOsc] }
+        position={ [-app.view.width / 2 * posOsc, -app.view.width / 2 * posOsc] }
         rotation={ rectRot }
         pointertap={ () => {
           setActive(!active)

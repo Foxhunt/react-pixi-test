@@ -7,23 +7,23 @@ import Penn from "./penn"
 
 const App = () => {
   const [recorder, setRecorder] = useState(null)
-  const [recording, setRecording] = useState(true)
-  const [conRotSpeed, setConRotSpeed] = useState(0.0325)
-  const [rectPosSpeed, setRectPosSpeed] = useState(0.0009)
+  const [active, setActive] = useState(false)
+  const [conRotSpeed, setConRotSpeed] = useState(0.055)
+  const [rectPosSpeed, setRectPosSpeed] = useState(0.001)
 
   useEffect(() => {
-    if (recording) {
+    if (active) {
       document.title = "recording"
       if (recorder) {
         recorder.start()
       }
     } else {
       document.title = "not recording"
-      if (recorder) {
+      if (recorder && recorder.state !== "inactive") {
         recorder.stop()
       }
     }
-  }, [recording, recorder])
+  }, [active, recorder])
 
   useEffect(() => {
     window.onkeydown = event => {
@@ -53,7 +53,7 @@ const App = () => {
     <>
       <Stage
         onClick={ () => {
-          setRecording(!recording)
+          setActive(!active)
         } }
         width={ 800 }
         height={ 800 }
@@ -63,6 +63,7 @@ const App = () => {
           preserveDrawingBuffer: true
         } }>
         <Penn
+          active={ active }
           conRotSpeed={ conRotSpeed }
           rectPosSpeed={ rectPosSpeed }
           getApp={ app => setRecorder(new Recorder(app.view)) } />

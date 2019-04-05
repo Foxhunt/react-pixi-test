@@ -9,8 +9,8 @@ const App = () => {
   const [app, setApp] = useState(null)
   const [recorder, setRecorder] = useState(null)
   const [active, setActive] = useState(false)
-  const [conRotSpeed, setConRotSpeed] = useState(0.055)
-  const [rectPosSpeed, setRectPosSpeed] = useState(0.001)
+  const [conRotSpeed, setConRotSpeed] = useState(0.020)
+  const [rectPosSpeed, setRectPosSpeed] = useState(0.0005)
 
   useEffect(() => {
     if (app) {

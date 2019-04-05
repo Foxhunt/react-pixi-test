@@ -3,9 +3,9 @@ import { useApp, useTick, Graphics, Container } from "@inlet/react-pixi"
 
 const drawRect = (g, size) => {
   g.clear()
-  g.beginFill(0x000000, 0.5)
-  g.lineStyle(1, 0xffffff, 0.5, 0.5)
-  g.drawRect(0 - size / 2, 0 - size / 2, size, size)
+  g.beginFill(0xff9900, 0.4)
+  g.lineStyle(1, 0xffffff, 0.2, 0.5)
+  g.drawCircle(0, 0, size)
   g.endFill()
 }
 
@@ -31,14 +31,14 @@ const Penn = ({ active, getApp, conRotSpeed, rectPosSpeed }) => {
     if (active) {
       setContRot(val => val + d * conRotSpeed)
       setRectRot(val => val - d * 0.03)
-      setRectSize(val => val + d * 0.05)
+      setRectSize(val => val + d * 0.000001)
       setRectPos(val => val + d * rectPosSpeed)
     }
   }, [active, conRotSpeed, rectPosSpeed])
 
   useTick(tick)
 
-  const sizeOsc = oscillate(rectSize, 0, 1)
+  const sizeOsc = oscillate(rectSize, 0.1, 1)
   const posOsc = oscillate(rectPos, 0.02, 1)
 
   const size = 30 * sizeOsc

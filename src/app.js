@@ -8,7 +8,9 @@ const App = () =>
     width={ 800 }
     height={ 800 }
     options={ {
-      antialias: true
+      antialias: true,
+      preserveDrawingBuffer: true,
+      clearBeforeRender: false
     } } >
     <Penn />
   </Stage>

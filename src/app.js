@@ -6,7 +6,10 @@ import Penn from "./penn"
 const App = () =>
   <Stage
     width={ 800 }
-    height={ 800 } >
+    height={ 800 }
+    options={ {
+      antialias: true
+    } } >
     <Penn />
   </Stage>
 

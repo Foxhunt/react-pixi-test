@@ -1,8 +1,9 @@
-import React, { useState, useRef } from "react"
+import React, { useState, useEffect } from "react"
 import { Graphics, Container, useTick, useApp } from "@inlet/react-pixi"
 import Tumult from "tumult"
 
 import Filter from "./Filter"
+import Recorder from "./Recorder"
 
 function sin(x) {
   return Math.sin(x / 800 * 2 * Math.PI)
@@ -21,14 +22,40 @@ const Penn = () => {
   const height = app.view.height
   const width = app.view.width
 
+  const [tumult, setTumult] = useState()
+  const [recorder, setRecorder] = useState()
+  const [recording, setRecording] = useState(false)
+
+  useEffect(() => {
+    if(!tumult){
+      setTumult(new Tumult.Simplex2())
+    }
+    if(!recorder){
+      setRecorder(new Recorder(app.view))
+    }
+    window.onpointerup = () => {
+      setRecording(rec => !rec)
+    }
+    return () => {
+      window.onpointerup = null
+    }
+  }, [recorder, tumult])
+
+  useEffect(() => {
+    if(recorder && recording){
+      recorder.start()
+    } else if(recorder && !recording && recorder.state !== "inactive") {
+      recorder.stop()
+    }
+  }, [recording])
+
   const [time, setTime] = useState(1)
   const [frequenz, setFrequenz] = useState(-2)
   const [amplitude, setAmplitude] = useState(height / 2)
 
-  const tumult = useRef(new Tumult.Simplex2())
-  const rngFreq = tumult.current.gen(time * 0.0006, time * 0.0006)
-  const rngAmp = tumult.current.gen(time * 0.0001, time * 0.0008)
-  const rngTime = tumult.current.gen(time * 0.00001, time * 0.0002)
+  const rngFreq =  tumult && tumult.gen(time * 0.0006, time * 0.0006)
+  const rngAmp = tumult && tumult.gen(time * 0.0001, time * 0.0008)
+  const rngTime = tumult && tumult.gen(time * 0.00001, time * 0.0002)
 
   useTick(d => {
     setTime(time + d)

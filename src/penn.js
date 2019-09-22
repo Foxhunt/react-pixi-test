@@ -57,11 +57,13 @@ const Penn = () => {
   const rngAmp = tumult && tumult.gen(time * 0.0001, time * 0.0008)
   const rngTime = tumult && tumult.gen(time * 0.00001, time * 0.0002)
 
-  useTick(d => {
+  function ownTick(d){
     setTime(time + d)
     setAmplitude(oscillate(time * 0.3, 100 * rngAmp, height / 2))
     setFrequenz(oscillate(time * 0.0000001, -2, 7))
-  })
+  }
+
+  useTick(ownTick)
 
   return (
     <Container

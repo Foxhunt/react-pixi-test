@@ -51,6 +51,17 @@ const Penn = () => {
             }
           }
         } />
+        <Graphics
+          draw={
+            g => {
+              g.clear()
+              g.lineStyle(4, 0xff9966)
+              g.moveTo(-width / 2, amplitude * rngAmp * sin(-width / 2 * frequenz * rngFreq - time) * sin(-width / 2 + time * rngTime))
+              for (let i = -width / 2; i <= width / 2; i++) {
+                g.lineTo(i, amplitude * rngAmp * sin(i * frequenz * rngFreq - time) * sin(i + time * rngTime))
+              }
+            }
+          } />
       <Graphics
         draw={
           g => {
@@ -62,6 +73,17 @@ const Penn = () => {
             }
           }
         } />
+        <Graphics
+          draw={
+            g => {
+              g.clear()
+              g.lineStyle(4, 0x6699ff)
+              g.moveTo(-width / 2, amplitude * sin(-width / 2 * frequenz - time * rngTime))
+              for (let i = -width / 2; i <= width / 2; i++) {
+                g.lineTo(i, amplitude * sin(i * frequenz - time * rngTime))
+              }
+            }
+          } />
     </Container>
   )
 }

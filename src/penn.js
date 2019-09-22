@@ -22,8 +22,8 @@ const Penn = () => {
   const width = app.view.width
 
   const [time, setTime] = useState(1)
-  const [frequenz, setFrequenz] = useState(5)
-  const [amplitude, setAmplitude] = useState(200)
+  const [frequenz, setFrequenz] = useState(1)
+  const [amplitude, setAmplitude] = useState(height / 2)
 
   useTick(d => {
     setTime(t => t + d * 2)
@@ -44,8 +44,8 @@ const Penn = () => {
           g => {
             g.clear()
             g.lineStyle(4, 0xff9966)
-            g.moveTo(-600, sin(-600 * frequenz + time) * amplitude)
-            for (let i = -600; i <= 600; i++) {
+            g.moveTo(-width / 2, amplitude * sin(-width / 2 * frequenz + time))
+            for (let i = -width / 2; i <= width / 2; i++) {
               g.lineTo(i, amplitude * rngAmp * sin(i * frequenz * rngFreq + time))
             }
           }
@@ -55,9 +55,9 @@ const Penn = () => {
           g => {
             g.clear()
             g.lineStyle(4, 0x6699ff)
-            g.moveTo(-600, sin(-600 * frequenz + time) * amplitude)
-            for (let i = -600; i <= 600; i++) {
-              g.lineTo(i, sin(i * frequenz + time) * amplitude)
+            g.moveTo(-width / 2, amplitude * sin(-width / 2 * frequenz + time))
+            for (let i = -width / 2; i <= width / 2; i++) {
+              g.lineTo(i, amplitude * sin(i * frequenz + time))
             }
           }
         } />

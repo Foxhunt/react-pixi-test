@@ -6,7 +6,7 @@ import Penn from "./penn"
 const App = () =>
   <Stage
     width={ 800 }
-    height={ 800 }
+    height={ 400 }
     options={ {
       antialias: true,
       preserveDrawingBuffer: true,

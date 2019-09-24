@@ -1,35 +1,56 @@
-import React, {useState, useEffect} from "react"
+import React, { useState, useEffect, useRef, useCallback } from "react"
 import { Stage } from "@inlet/react-pixi"
 
 import Penn from "./penn"
 
 const App = () => {
-  const [dimensions, setDimensions] = useState([window.innerWidth, window.innerHeight])
+  const [currentCanvas, setCanvas] = useState(null)
 
-  useEffect(() => {
-    function handleResize(){
-      setDimensions([window.innerWidth, window.innerHeight])
+  const canvasRef = useCallback(ref => {
+    if (ref !== null) {
+      setCanvas(ref)
     }
-    window.addEventListener("resize", handleResize)
-    return () => {
-      window.removeEventListener("resize", handleResize)
-    }
-  })
+  }, [])
 
   return (
-    <Stage
-      width={ dimensions[0] }
-      height={ dimensions[1] }
-      options={ {
-        antialias: true,
-        preserveDrawingBuffer: true,
-        clearBeforeRender: false
-      } } >
-      <Penn />
-    </Stage>
+    <div
+      style={{
+        width: "100vw",
+        height: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center"
+      }}>
+      <div
+        style={{
+          width: "100vw",
+          height: "56.25vw",
+          maxWidth: "177.78vh",
+          maxHeight: "100vh"
+        }}>
+        <canvas
+          style={{
+            width: "100%"
+          }}
+          className="canvas"
+          ref={canvasRef} />
+        {
+          currentCanvas &&
+          <Stage
+            width={1920}
+            height={1080}
+            options={{
+              antialias: true,
+              preserveDrawingBuffer: true,
+              clearBeforeRender: false,
+              view: currentCanvas
+            }}>
+            <Penn />
+          </Stage>
+        }
+      </div>
+    </div>
   )
 }
-  
-
 
 export default App

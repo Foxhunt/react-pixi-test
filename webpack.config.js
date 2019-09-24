@@ -1,9 +1,13 @@
 /* eslint-disable import/no-commonjs */
 const HtmlWebpackPlugin = require("html-webpack-plugin")
+const path = require("path")
 
 module.exports = (env = {}) => ({
   mode: env.production ? "production" : "development",
   devtool: env.production ? "source-map" : "eval-source-map",
+  output: {
+    path: path.resolve(__dirname, "public")
+  },
   module: {
     rules: [
       {

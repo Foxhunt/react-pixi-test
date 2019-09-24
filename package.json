@@ -1,11 +1,11 @@
 {
-  "name": "react-project-template",
+  "name": "react-pixi-test",
   "version": "1.0.0",
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
     "lint": "eslint src",
-    "start": "npm run build && serve dist",
+    "start": "npm run build && serve public",
     "build": "webpack --env.production",
     "watch": "webpack-dev-server --env.development"
   },

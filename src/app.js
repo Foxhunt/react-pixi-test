@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from "react"
+import React, { useState, useCallback } from "react"
 import { Stage } from "@inlet/react-pixi"
 
 import Penn from "./penn"

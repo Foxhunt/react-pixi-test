@@ -50,17 +50,17 @@ const Penn = () => {
   }, [recording])
 
   const [time, setTime] = useState(1)
-  const [frequenz, setFrequenz] = useState(-2)
+  const [frequenz, setFrequenz] = useState(1)
   const [amplitude, setAmplitude] = useState(height / 2)
 
   const rngFreq =  tumult && tumult.gen(time * 0.0006, time * 0.0006)
-  const rngAmp = tumult && tumult.gen(time * 0.0001, time * 0.0008)
+  const rngAmp = tumult && tumult.gen(time * 0.0001, time * 0.0002)
   const rngTime = tumult && tumult.gen(time * 0.00001, time * 0.0002)
 
   function ownTick(d){
-    setTime(time + d)
+    setTime(time + d * .6)
     setAmplitude(oscillate(time * 0.3, 100 * rngAmp, height / 2))
-    setFrequenz(oscillate(time * 0.0000001, -2, 7))
+    setFrequenz(oscillate(time * 0.0000001, 1, 7))
   }
 
   useTick(ownTick)
@@ -73,46 +73,28 @@ const Penn = () => {
         draw={
           g => {
             g.clear()
-            g.lineStyle(4, 0xff9966)
+            g.lineStyle(7, 0xff9966)
             g.moveTo(-width / 2, amplitude * rngAmp * sin(-width / 2 * frequenz * rngFreq + time) * sin(-width / 2 + time * rngTime))
             for (let i = -width / 2; i <= width / 2; i++) {
               g.lineTo(i, amplitude * rngAmp * sin(i * frequenz * rngFreq + time) * sin(i + time * rngTime))
             }
-          }
-        } />
-        <Graphics
-          draw={
-            g => {
-              g.clear()
-              g.lineStyle(4, 0xff9966)
-              g.moveTo(-width / 2, amplitude * rngAmp * sin(-width / 2 * frequenz * rngFreq - time) * sin(-width / 2 + time * rngTime))
-              for (let i = -width / 2; i <= width / 2; i++) {
-                g.lineTo(i, amplitude * rngAmp * sin(i * frequenz * rngFreq - time) * sin(i + time * rngTime))
-              }
+            g.lineStyle(7, 0x6699ff)
+            g.moveTo(-width / 2, amplitude * rngAmp * sin(-width / 2 * frequenz * rngFreq - time) * sin(-width / 2 - time * rngTime))
+            for (let i = -width / 2; i <= width / 2; i++) {
+              g.lineTo(i, amplitude * rngAmp * sin(i * frequenz * rngFreq - time) * sin(i - time * rngTime))
             }
-          } />
-      <Graphics
-        draw={
-          g => {
-            g.clear()
-            g.lineStyle(4, 0x6699ff)
+            g.lineStyle(7, 0x6699ff)
+            g.moveTo(-width / 2, amplitude * sin(-width / 2 * frequenz - time * rngTime))
+            for (let i = -width / 2; i <= width / 2; i++) {
+              g.lineTo(i, amplitude * sin(i * frequenz - time * rngTime))
+            }
+            g.lineStyle(7, 0xff9966)
             g.moveTo(-width / 2, amplitude * sin(-width / 2 * frequenz + time * rngTime))
             for (let i = -width / 2; i <= width / 2; i++) {
               g.lineTo(i, amplitude * sin(i * frequenz + time * rngTime))
             }
           }
         } />
-        <Graphics
-          draw={
-            g => {
-              g.clear()
-              g.lineStyle(4, 0x6699ff)
-              g.moveTo(-width / 2, amplitude * sin(-width / 2 * frequenz - time * rngTime))
-              for (let i = -width / 2; i <= width / 2; i++) {
-                g.lineTo(i, amplitude * sin(i * frequenz - time * rngTime))
-              }
-            }
-          } />
     </Container>
   )
 }

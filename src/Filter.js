@@ -8,7 +8,8 @@ uniform sampler2D uSampler;
 void main(void)
 {
     vec4 pixel = texture2D(uSampler, vTextureCoord);
-    pixel.rgb = vec3(0.006);
+    pixel.a += .05;
+    pixel.rgb *= pixel.a;
     gl_FragColor = pixel;
 }
 `

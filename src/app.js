@@ -37,8 +37,8 @@ const App = () => {
         {
           currentCanvas &&
           <Stage
-            width={ 1920 * 2 }
-            height={ 1080 * 2 }
+            width={ 1920 }
+            height={ 1080 }
             options={ {
               antialias: true,
               preserveDrawingBuffer: true,

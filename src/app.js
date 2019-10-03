@@ -14,37 +14,37 @@ const App = () => {
 
   return (
     <div
-      style={{
+      style={ {
         width: "100vw",
         height: "100vh",
         display: "flex",
         justifyContent: "center",
         alignItems: "center"
-      }}>
+      } }>
       <div
-        style={{
+        style={ {
           width: "100vw",
           height: "56.25vw",
           maxWidth: "177.78vh",
           maxHeight: "100vh"
-        }}>
+        } }>
         <canvas
-          style={{
+          style={ {
             width: "100%"
-          }}
+          } }
           className="canvas"
-          ref={canvasRef} />
+          ref={ canvasRef } />
         {
           currentCanvas &&
           <Stage
-            width={1920 * 2}
-            height={1080 * 2}
-            options={{
+            width={ 1920 * 2 }
+            height={ 1080 * 2 }
+            options={ {
               antialias: true,
               preserveDrawingBuffer: true,
               clearBeforeRender: false,
               view: currentCanvas
-            }}>
+            } }>
             <Penn />
           </Stage>
         }

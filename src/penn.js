@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react"
 import { Graphics, Container, useTick, useApp } from "@inlet/react-pixi"
 import Tumult from "tumult"
+import { filters } from "pixi.js"
 
 import Filter from "./Filter"
 import Recorder from "./Recorder"
 
 function sin(x) {
-  return Math.sin(x / 800 * 2 * Math.PI)
+  return Math.sin(x / 1920 * 2 * Math.PI)
 }
 
 function oscillate(input, min, max) {
@@ -16,6 +17,8 @@ function oscillate(input, min, max) {
 }
 
 const alphaFilter = new Filter()
+const fxaaFilter = new filters.FXAAFilter()
+const someFilter = new filters.NoiseFilter()
 
 const Penn = () => {
   const app = useApp()
@@ -28,7 +31,7 @@ const Penn = () => {
 
   useEffect(() => {
     if (!tumult) {
-      setTumult(new Tumult.Simplex2())
+      setTumult(new Tumult.Simplex2("seeds"))
     }
     if (!recorder) {
       setRecorder(new Recorder(app.view))
@@ -53,14 +56,14 @@ const Penn = () => {
   const [frequenz, setFrequenz] = useState(1)
   const [amplitude, setAmplitude] = useState(height / 2)
 
-  const rngFreq = tumult && tumult.gen(time * 0.0006, time * 0.0006)
+  const rngFreq = tumult && tumult.gen(time * 0.0002, time * 0.0002)
   const rngAmp = tumult && tumult.gen(time * 0.0001, time * 0.0002)
   const rngTime = tumult && tumult.gen(time * 0.00001, time * 0.0002)
 
   function ownTick(d) {
     setTime(time + d * 0.6)
-    setAmplitude(oscillate(time * 0.3, 100 * rngAmp, height / 2))
-    setFrequenz(oscillate(time * 0.0000001, 1, 7))
+    setAmplitude(oscillate(time * 0.1, 100 * rngAmp, height / 2))
+    setFrequenz(oscillate(time * 0.001 * rngFreq, 0, 3))
   }
 
   useTick(ownTick)
@@ -68,7 +71,7 @@ const Penn = () => {
   return (
     <Container
       position={ [width / 2, height / 2] }
-      filters={ [alphaFilter] }>
+      filters={ [fxaaFilter, someFilter, alphaFilter] }>
       <Graphics
         draw={
           g => {

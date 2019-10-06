@@ -19,7 +19,8 @@ const App = () => {
         height: "100vh",
         display: "flex",
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
+        backgroundColor: "black"
       } }>
       <div
         style={ {

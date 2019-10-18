@@ -1,10 +1,18 @@
 import React, { useState, useEffect } from "react"
-import { Graphics, Container, useTick, useApp } from "@inlet/react-pixi"
+import { Graphics, Container, useTick, useApp, Sprite } from "@inlet/react-pixi"
 import Tumult from "tumult"
 import { filters } from "pixi.js"
 
 import Filter from "./Filter"
 import Recorder from "./Recorder"
+
+const bunny = "https://s3-us-west-2.amazonaws.com/s.cdpn.io/693612/IaUrttj.png"
+
+const bunnys = []
+
+for (let i = 0; i < 1920; i += 26) {
+  bunnys.push(i)
+}
 
 function sin(x) {
   return Math.sin(x / 1920 * 2 * Math.PI)
@@ -36,9 +44,6 @@ const Penn = () => {
     if (!recorder) {
       setRecorder(new Recorder(app.view))
     }
-    window.onpointerup = () => {
-      setRecording(rec => !rec)
-    }
     return () => {
       window.onpointerup = null
     }
@@ -61,7 +66,7 @@ const Penn = () => {
   const rngTime = tumult && tumult.gen(time * 0.00001, time * 0.0002)
 
   function ownTick(d) {
-    setTime(time + d * 0.6)
+    setTime(time + d * 1.8)
     setAmplitude(oscillate(time * 0.1, 100 * rngAmp, height / 2))
     setFrequenz(oscillate(time * 0.001 * rngFreq, 0, 3))
   }
@@ -71,7 +76,7 @@ const Penn = () => {
   return (
     <Container
       position={ [width / 2, height / 2] }
-      filters={ [fxaaFilter, someFilter, alphaFilter] }>
+      filters={ [fxaaFilter, alphaFilter] }>
       <Graphics
         draw={
           g => {
@@ -106,6 +111,22 @@ const Penn = () => {
             }
           }
         } />
+      {
+        bunnys.map(i =>
+          <Sprite
+            key={ i }
+            anchor={ [0.5, 0.5] }
+            position={ [
+              i - width / 2 + 16,
+              amplitude * sin((i - width / 2 + 16) * frequenz - time * rngTime)
+            ] }
+            interactive
+            rotation={ Math.sin(time * 0.01) * 4 }
+            image={ bunny }
+            pointerdown={ () => {
+              console.log(`click bunny ${i}`)
+            } } />)
+      }
     </Container>
   )
 }

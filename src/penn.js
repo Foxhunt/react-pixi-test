@@ -10,12 +10,12 @@ const bunny = "https://s3-us-west-2.amazonaws.com/s.cdpn.io/693612/IaUrttj.png"
 
 const bunnys = []
 
-for (let i = 0; i < 1920; i += 26) {
+for (let i = 0; i < 1920 * 2; i += 26) {
   bunnys.push(i)
 }
 
 function sin(x) {
-  return Math.sin(x / 1920 * 2 * Math.PI)
+  return Math.sin(x / 1920 * 2 * 2 * Math.PI)
 }
 
 function oscillate(input, min, max) {

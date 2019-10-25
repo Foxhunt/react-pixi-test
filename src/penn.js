@@ -8,12 +8,6 @@ import Recorder from "./Recorder"
 
 const bunny = "https://s3-us-west-2.amazonaws.com/s.cdpn.io/693612/IaUrttj.png"
 
-const bunnys = []
-
-for (let i = 0; i < 1920 * 2; i += 26) {
-  bunnys.push(i)
-}
-
 function sin(x) {
   return Math.sin(x / 1920 * 2 * 2 * Math.PI)
 }
@@ -36,6 +30,15 @@ const Penn = () => {
   const [tumult, setTumult] = useState()
   const [recorder, setRecorder] = useState()
   const [recording, setRecording] = useState(false)
+
+  const [bunnys, setBunnys] = useState([])
+
+  useEffect(() => {
+    for (let i = 0; i < 1920 * 2; i += 26) {
+      bunnys.push(i)
+    }
+    setBunnys(bunnys)
+  }, [])
 
   useEffect(() => {
     if (!tumult) {
@@ -66,7 +69,7 @@ const Penn = () => {
   const rngTime = tumult && tumult.gen(time * 0.00001, time * 0.0002)
 
   function ownTick(d) {
-    setTime(time + d * 1.8)
+    setTime(time + d * 0.6)
     setAmplitude(oscillate(time * 0.1, 100 * rngAmp, height / 2))
     setFrequenz(oscillate(time * 0.001 * rngFreq, 0, 3))
   }
@@ -112,19 +115,25 @@ const Penn = () => {
           }
         } />
       {
-        bunnys.map(i =>
+        bunnys.map((value, index, array) =>
           <Sprite
-            key={ i }
+            key={ value }
             anchor={ [0.5, 0.5] }
             position={ [
-              i - width / 2 + 16,
-              amplitude * sin((i - width / 2 + 16) * frequenz - time * rngTime)
+              value - width / 2 + 16,
+              amplitude * sin((value - width / 2 + 16) * frequenz - time * rngTime)
             ] }
             interactive
             rotation={ Math.sin(time * 0.01) * 4 }
             image={ bunny }
             pointerdown={ () => {
-              console.log(`click bunny ${i}`)
+              array.splice(index, 1)
+              setBunnys(array)
+              setTimeout(() => {
+                bunnys.push(value)
+                bunnys.sort()
+                setBunnys(bunnys)
+              }, 1000)
             } } />)
       }
     </Container>

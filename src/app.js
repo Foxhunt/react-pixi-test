@@ -20,7 +20,7 @@ const App = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "black"
+        backgroundColor: "white"
       } }>
       <div
         style={ {
@@ -38,13 +38,13 @@ const App = () => {
         {
           currentCanvas &&
           <Stage
-            width={ 1920 * 2 }
-            height={ 1080 * 2 }
+            width={ 1920 }
+            height={ 1080 }
             options={ {
               antialias: true,
-              preserveDrawingBuffer: true,
               clearBeforeRender: false,
-              view: currentCanvas
+              preserveDrawingBuffer: true,
+              view: currentCanvas,
             } }>
             <Penn />
           </Stage>
